@@ -1,0 +1,6 @@
+.idea
+.gradle
+out
+path.mk
+*.iml
+insta1-go-app

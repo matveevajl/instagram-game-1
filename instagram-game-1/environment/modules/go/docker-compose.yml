@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: go-app.dockerfile
+    user: "${HOST_UID}:${HOST_GID}"
+    volumes:
+      - type: volume
+        source: pkg_cache
+        target: /home/godev/.go/pkg
+      - type: bind
+        source: "${APP_PROJECT}/src"
+        target: /application/src/insta1
+      - type: bind
+        source: "${ENVIRONMENT_DIR}/modules/go/go-script.sh"
+        target: /home/godev/script.sh
+    command: ["sh", "-c", "/bin/bash /home/godev/script.sh"]
+
+volumes:
+  pkg_cache:

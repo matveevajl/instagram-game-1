@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: node.dockerfile
+    user: "${HOST_UID}:${HOST_GID}"
+    volumes:
+      - type: bind
+        source: "${ENVIRONMENT_DIR}/modules/js/node-script.sh"
+        target: /home/node/app/node-script.sh
+      - type: bind
+        source: "${APP_PROJECT}/src/app.js"
+        target: /home/node/app/src/app.js
+    command: ["sh", "-c", "/bin/bash /home/node/app/node-script.sh"]

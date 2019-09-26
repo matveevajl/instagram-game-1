@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: gradle-simple.dockerfile
+    volumes:
+      - type: volume
+        source: gradle-cache
+        target: /home/gradle/.gradle
+      - type: bind
+        source: "${APP_PROJECT}/src"
+        target: /application/src
+      - type: bind
+        source: "${APP_PROJECT}/build.gradle"
+        target: /application/build.gradle
+      - type: bind
+        source: "${ENVIRONMENT_DIR}/modules/jvm/gradle-script.sh"
+        target: /application/script.sh
+    user: "${HOST_UID}:${HOST_GID}"
+    command: ["sh", "-c", "/bin/bash /application/script.sh"]
+
+volumes:
+  gradle-cache:
